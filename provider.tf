@@ -7,8 +7,11 @@ provider "aws" {
   region = "your-aws-region"
 }
 
-provider "google" {
-  project = "your-gcp-project-id"
-  region  = "your-gcp-region"
+terraform {
+  required_providers {
+    google = {
+      source  = "hashicorp/google"
+      version = "6.18.1"
+    }
+  }
 }
-
