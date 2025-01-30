@@ -1,11 +1,10 @@
-variable "aws_access_key_id" {
-  type = string
-}
+variable "config" {
+  type = object({
+    aws_access_key_id : string
+    aws_secret_access_key : string
+    aws_s3_bucket : string
+    gcp_project_id : string
+    gcs_bucket_name : string
+  })
 
-variable "aws_secret_access_key" {
-  type = string
-}
-
-variable "aws_s3_bucket" {
-  type = string
 }

@@ -1,5 +1,5 @@
 resource "google_storage_bucket" "target" {
-  name     = "your-gcs-bucket"
+  name     = var.config.gcs_bucket_name
   location = "US"
 }
 
@@ -18,7 +18,7 @@ resource "google_storage_transfer_job" "s3_to_gcs_transfer" {
   name        = "s3-to-gcs-transfer"
   description = "Transfer job from S3 to GCS"
 
-  project = "your-gcp-project-id"
+  project = var.config.gcp_project_id
 
   status = "ENABLED"
 
@@ -52,10 +52,10 @@ resource "google_storage_transfer_job" "s3_to_gcs_transfer" {
       delete_objects_unique_in_sink = false
     }
     aws_s3_data_source {
-      bucket_name = var.aws_s3_bucket
+      bucket_name = var.config.aws_s3_bucket
       aws_access_key {
-        access_key_id     = var.aws_access_key_id
-        secret_access_key = var.aws_secret_access_key
+        access_key_id     = var.config.aws_access_key_id
+        secret_access_key = var.config.aws_secret_access_key
       }
     }
     gcs_data_sink {
