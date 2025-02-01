@@ -1,6 +1,8 @@
 provider "google" {
-  project = "your-gcp-project-id"
-  region  = "your-gcp-region"
+  credentials = file("terraform_credentails.json")
+  project     = var.config.gcp_project_id
+  region      = "us-central1"
+  zone        = "us-central1-a"
 }
 
 provider "aws" {
