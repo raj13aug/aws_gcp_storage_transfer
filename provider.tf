@@ -6,7 +6,7 @@ provider "google" {
 }
 
 provider "aws" {
-  region = "your-aws-region"
+  region = var.config.region
 }
 
 terraform {

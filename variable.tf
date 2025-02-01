@@ -5,6 +5,7 @@ variable "config" {
     aws_s3_bucket         = string
     gcp_project_id        = string
     gcs_bucket_name       = string
+    region                = string
   })
   default = {
     aws_access_key_id     = "John Doe"
@@ -12,5 +13,6 @@ variable "config" {
     aws_s3_bucket         = "true"
     gcp_project_id        = "vm-group-448915"
     gcs_bucket_name       = "application-aws"
+    region                = "us-east-1"
   }
 }
