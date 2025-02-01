@@ -64,9 +64,3 @@ resource "google_storage_transfer_job" "s3_to_gcs_transfer" {
     }
   }
 }
-
-# resource "google_storage_transfer_agent_pool" "default" {
-#   name    = "transfer-agent"
-#   project = var.config.gcp_project_id
-
-# }
