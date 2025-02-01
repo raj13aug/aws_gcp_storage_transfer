@@ -1,7 +1,7 @@
-# resource "google_project_service" "compute" {
-#   project = var.config.gcp_project_id
-#   service = "storagetransfer.googleapis.com"
-# }
+resource "google_project_service" "compute" {
+  project = var.config.gcp_project_id
+  service = "storagetransfer.googleapis.com"
+}
 
 resource "google_storage_bucket" "target" {
   name          = var.config.gcs_bucket_name
