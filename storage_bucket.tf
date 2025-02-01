@@ -1,21 +1,22 @@
-resource "google_storage_bucket" "target" {
-  name     = var.config.gcs_bucket_name
-  location = "US"
+resource "google_project_service" "compute" {
+  project = var.config.gcp_project_id
+  service = "storagetransfer.googleapis.com"
 }
 
-resource "google_service_account" "transfer_account" {
-  account_id   = "transfer-service-account"
-  display_name = "Transfer Service Account"
-}
 
-resource "google_project_iam_member" "storage_transfer_service" {
-  project = "your-gcp-project-id"
-  role    = "roles/storage.admin"
-  member  = "serviceAccount:${google_service_account.transfer_account.email}"
-}
+# resource "google_service_account" "transfer_account" {
+#   account_id   = "transfer-service-account"
+#   display_name = "Transfer Service Account"
+# }
+
+# resource "google_project_iam_member" "storage_transfer_service" {
+#   project = var.config.gcp_project_id
+#   role    = "roles/storage.admin"
+#   member  = "serviceAccount:${google_service_account.transfer_account.email}"
+# }
 
 resource "google_storage_transfer_job" "s3_to_gcs_transfer" {
-  name        = "s3-to-gcs-transfer"
+  # name        = "s3_to_gcs_transfer_cloudroot7_2025"
   description = "Transfer job from S3 to GCS"
 
   project = var.config.gcp_project_id
@@ -49,7 +50,8 @@ resource "google_storage_transfer_job" "s3_to_gcs_transfer" {
       ]
     }
     transfer_options {
-      delete_objects_unique_in_sink = false
+      delete_objects_unique_in_sink              = false
+      overwrite_objects_already_existing_in_sink = true
     }
     aws_s3_data_source {
       bucket_name = var.config.aws_s3_bucket
@@ -59,8 +61,8 @@ resource "google_storage_transfer_job" "s3_to_gcs_transfer" {
       }
     }
     gcs_data_sink {
-      bucket_name = google_storage_bucket.s3-backup-bucket.name
-      path        = "foo/bar/"
+      bucket_name = var.config.gcs_bucket_name
+      path        = "/"
     }
   }
 }
