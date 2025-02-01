@@ -3,13 +3,41 @@ resource "google_project_service" "compute" {
   service = "storagetransfer.googleapis.com"
 }
 
+resource "google_storage_bucket" "target" {
+  name     = var.config.gcs_bucket_name
+  location = "US"
+
+}
 
 # resource "google_service_account" "transfer_account" {
 #   account_id   = "transfer-service-account"
 #   display_name = "Transfer Service Account"
 # }
 
+
+# resource "google_storage_bucket_iam_member" "bucket_admin" {
+#   bucket = var.config.gcs_bucket_name
+#   role   = "roles/storage.admin"
+#   member = "serviceAccount:project-781779976056@storage-transfer-service.iam.gserviceaccount.com"
+# }
+
+data "google_storage_transfer_project_service_account" "project_service_account" {
+  project = var.config.gcp_project_id
+}
+
+resource "google_storage_bucket_iam_member" "storage_bucket_iam_member" {
+  bucket = var.config.gcs_bucket_name
+  role   = "roles/storage.admin"
+  member = "serviceAccount:${data.google_storage_transfer_project_service_account.project_service_account.email}"
+}
+
 # resource "google_project_iam_member" "storage_transfer_service" {
+#   project = var.config.gcp_project_id
+#   role    = "roles/storage.admin"
+#   member  = "serviceAccount:${google_service_account.transfer_account.email}"
+# }
+
+# resource "google_project_iam_member" "storage_transfer_service_account" {
 #   project = var.config.gcp_project_id
 #   role    = "roles/storage.admin"
 #   member  = "serviceAccount:${google_service_account.transfer_account.email}"
@@ -61,8 +89,7 @@ resource "google_storage_transfer_job" "s3_to_gcs_transfer" {
       }
     }
     gcs_data_sink {
-      bucket_name = var.config.gcs_bucket_name
-      path        = "/"
+      bucket_name = google_storage_bucket.target.name
     }
   }
 }
