@@ -1,11 +1,12 @@
-resource "google_project_service" "compute" {
-  project = var.config.gcp_project_id
-  service = "storagetransfer.googleapis.com"
-}
+# resource "google_project_service" "compute" {
+#   project = var.config.gcp_project_id
+#   service = "storagetransfer.googleapis.com"
+# }
 
 resource "google_storage_bucket" "target" {
-  name     = var.config.gcs_bucket_name
-  location = "US"
+  name          = var.config.gcs_bucket_name
+  location      = "US"
+  force_destroy = true
 }
 
 data "google_storage_transfer_project_service_account" "project_service_account" {
