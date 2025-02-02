@@ -10,7 +10,7 @@ variable "config" {
   })
   default = {
     aws_access_key_id     = "AKIA5SOY6"
-    aws_secret_access_key = "2VnPibyqypUyr"
+    aws_secret_access_key = "2VnPibyq"
     aws_s3_bucket         = "application-gcp"
     gcp_project_id        = "vm-group-448915"
     gcs_bucket_name       = "application-aws"
